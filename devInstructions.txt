@@ -1,0 +1,39 @@
+-Create a 'cBall' class. 
+
++Private variables for positions (x and y) and OriginalX, OriginalY
+-Direction the ball moves will be a state, so use enum 'eDir'
++Need directions for allcaps (stop, left, right, upleft, downleft, upright, and downright) with increasing int values from 0
++Add an eDir 'direction' as a cBall private variable
+
+-Need a constructor in the public variable
++Use posX and posY as args and set originals to the pos
++Also set x and y to the pos
++direction will be STOP
+-This basically constructs the object of the class in the stop position 
+
+-Create a reset function 
+void Reset() set x and y to original and direction to STOP
+
+-void changeDirection function with eDir 'd' argument
++ direction will equal d, changing to a new direction
+
+-Define public functions for getting coordinates
++ inline int getX() {return x;} for example
++ And one for getY and getDirection
+
+-Make a randomDirection function. Set direction = (eDir)((ran() % 6) + 1);
+
+*Note: Notice how the functions and class were made first
+
+-Make a Move function that will switch the direction state
++ void Move() {switch(direction){case STOP: break; case LEFT: x--; break; case Right: x++; break; etc}
+
+-Define a friend function (LEARN FRIEND FUNCTIONS)
++ friend ostream & operator<<(ostream & o, cBall c) { o << "Ball [" << c.x << "," << c.y << "][" << c.direction << "]"; return o;
+
+- Debugging
+- In main: Create the cBall 'c' object with position 0, 0
++ Show the status of the ball cout << c << endl;
++ Start with a random direction c.randomDirection();
++ Display it again and call the move function, show its status, random, status, move, status
++ Add a break point to the last line

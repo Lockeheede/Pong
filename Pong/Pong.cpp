@@ -3,9 +3,99 @@
 
 #include <iostream>
 
+using namespace std;
+
+enum eDir {
+    STOP = 0, LEFT = 1, DLEFT = 2, ULEFT = 3, RIGHT = 4, DRIGHT = 5, URIGHT = 6
+};
+
+class cBall 
+{
+private:
+    int x, y;
+    int originalX, originalY;
+    eDir direction;
+public:
+    cBall(int posX, int posY)
+    {
+        originalX = posX; 
+        originalY = posY;
+        x = posX; y = posY;
+        direction = STOP;
+    }
+
+void Reset() 
+{
+    x = originalX; 
+    y = originalY;
+    direction = STOP;
+}
+
+void ChangeDirection(eDir d)
+{
+    direction = d;
+}
+
+void RandomDirection()
+{
+    direction = (eDir)((rand() % 6) + 1);
+}
+
+inline int getX() { return x; }
+inline int getY() { return y; }
+inline eDir getDirection() { return direction; }
+
+void Move()
+{
+    switch (direction)
+    {
+    case STOP:
+        break;
+    case LEFT:
+        x--;
+        break;
+    case RIGHT:
+        x++;
+        break;
+    case DLEFT:
+        x--; y--;
+        break;
+    case ULEFT:
+        x--; y++;
+        break;
+    case DRIGHT:
+        x++; y--;
+        break;
+    case URIGHT:
+        x++; y++;
+        break;
+    default:
+        break;
+    }
+}
+
+friend ostream& operator<<(ostream& o, cBall c) {
+    o << "Ball [" << c.x << "," << c.y << "][" << c.direction << "]";
+    return o;
+}
+
+};
 int main()
 {
-    std::cout << "Hello World!\n";
+    cBall c(0, 0);
+    cout << c << endl;
+    c.RandomDirection();
+    cout << c << endl;
+    c.Move();
+    c.RandomDirection();
+    cout << c << endl;
+    c.Move();
+    c.RandomDirection();
+    cout << c << endl;
+    c.Move();
+    c.RandomDirection();
+    cout << c << endl;
+
 }
 
 // Run program: Ctrl + F5 or Debug > Start Without Debugging menu
