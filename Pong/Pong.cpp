@@ -2,6 +2,8 @@
 //
 
 #include <iostream>
+#include <time.h>
+#include <conio.h>
 
 using namespace std;
 
@@ -80,22 +82,69 @@ friend ostream& operator<<(ostream& o, cBall c) {
 }
 
 };
+
+class cPaddle 
+{
+private:
+    int x, y;
+    int originalX, originalY;
+public:
+    cPaddle()
+    {
+        x = y = 0;
+    }
+    cPaddle(int posX, int posY) : cPaddle()
+    {
+        x = posX;
+        y = posY;
+        originalX = posX;
+        originalY = posY;
+    }
+
+inline void Reset() { x = originalX; y = originalY; }
+inline int getX() { return x; }
+inline int getY() { return y; }
+inline void moveUp() { y++; }
+inline void moveDown() { y--; }
+
+friend ostream& operator<<(ostream& o, cPaddle c) {
+    o << "Paddle [" << c.x << "," << c.y << "]";
+    return o;
+}
+};
+
+class cGameManager 
+{
+private:
+    int width, height;
+    int scoreP1, scoreP2;
+    char upP1, downP1, upP2, downP2;
+    bool quit;
+    cBall* ball;
+    cPaddle* player1;
+    cPaddle* player2;
+public:
+    cGameManager(int w, int y)
+    {
+        srand(time(NULL));
+        quit = false;
+        upP1 = 'w'; upP2 = 'i';
+        downP1 = 's'; downP2 = 'k';
+        scoreP1 = scoreP2 = 0;
+        width = w; height = h;
+        ball = new cBall(w / 2, h / 2);
+        player1 = new cPaddle(1, h / 2 - 3);
+        player2 = new cPaddle(w-2, h / 2 - 3);
+    }
+    ~cGameManager() 
+    {
+        delete ball, player1, player2;
+    }
+};
+
 int main()
 {
-    cBall c(0, 0);
-    cout << c << endl;
-    c.RandomDirection();
-    cout << c << endl;
-    c.Move();
-    c.RandomDirection();
-    cout << c << endl;
-    c.Move();
-    c.RandomDirection();
-    cout << c << endl;
-    c.Move();
-    c.RandomDirection();
-    cout << c << endl;
-
+    
 }
 
 // Run program: Ctrl + F5 or Debug > Start Without Debugging menu

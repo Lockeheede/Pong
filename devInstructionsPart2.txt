@@ -1,0 +1,49 @@
+- Create the Player Paddle Controller
+
+- Create class cPaddle. private variables for positions for x,y
+and originalX and Y
+- Make constructor for cPaddle and set x = y = 0;
+- Make another constructor with posX and posY args : cPaddle()
++ set originalX = posX and originalY = posY and x and y = their pos
+
+- Inline functions
++ Create an inline Reset to set the x and y to originals
++ getX and getY and return them in inline functions
++ inline functions moveUp to y++ and moveDown to y--
+
+- Copy and paste the friend function from cBall over to the cPaddle. Change "Ball " to "Paddle ", remove direction, and change the cBall c to cPaddle c
+
+- Test in main
+cPaddle p1 (0,0);
+cPaddle p2 (10, 0);
+cout << p1 << endl;
+cout << p2 << endl;
+p1.moveUp(); p2.moveDown(); and show status
+
+#include <time.h>
+#include <conio.h>
+
+- Create a cGameManager class (STUDY USE OF GAMEMANAGERS)
+{
++Define width, height, scoreP1, scoreP2, keys for moving P1 and P2 up and down, these are chars, a boolean called quit, a ball pointer, a player1 and player2 pointers
++Constructor for cGameManager(w, h)
++Call srand(time(NULL));
++SSet quit to false
++upP1 = 'w'; upP2 = 'i'; downP1 = 's'; downP2 = 'k';
+scoreP1 = scoreP2 = 0;
++Set width to w, height to h
+Set ball to a new cBall object with (w/2, h/2)
+Initialize player1 as a new cPaddle(1, h/2 - 3);
+Initialize player2 as a new cPaddle(w-2, h/2 - 3);
+}
+- Create a destructor ~GameManager() { delete ball, player1, player2;}
+
+- Function to increase the score
+- ScoreUp(cPaddle *player)
+{
+	if(player == player1) scoreP1++;
+	else if (player == player2) scoreP2++;
+	ball->Reset();
+	player1->Reset();
+	player2->Reset();
+}
