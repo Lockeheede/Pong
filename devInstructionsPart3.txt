@@ -1,0 +1,51 @@
+-Finish Game Manager Class
+
+-Add simple Draw() function
++ Use the system("cls") or linux system("clear");
++ Print walls using for loop, with t < width + 2
++ cout << "#"; 
++ Outside of loop cout << endl;
++ Make a copy of the loop and endl;
+
+- Test in main()
+{cGameManager c(40, 20); c.Draw();
+}
+
+- In between put a for loop with i < height
++ And a nested loop with j < width
++ j is x and i is y (think width and height)
++ Inside j loop, create a int ballx = ball->getX(), also do one for bally, player1x, player2x, player1y, player2y
++ If j equals 0 cout << "#"
++ If ballx equals j AND bally equals i cout << "0"
++ Else if (player1x equals j AND player1y equals i cout << "|"
++ Make a copy and change the data to player2x and y
++ Else if it is not the player or ball make it a blank space
++ If j equals width - 1 cout << "X"
++ At the end of this loop, print out a new line with endl
+
+- Test in main()
+
+-Press Win+r and search for charmap
++ Select advanced view, and change character set to dos: western europe 
++ Replace the walls with 0xB2, or in C++ as "\xB2"
++ Make paddles \xDB
+
+- Add more parts to paddles
++Copy and paste player1 render 3 times. In the condition make it AND player1y + 1, + 2, + 3 respectively. Same with player2 render
+
+-Add an Input() function to game manager
+- Call ball->Move()
++ Need to store the coordinates like in the render
++ if (_kbhit()) { char current = _getcj(); 
++if (current == up1) (if player1y > 0) player1 -> moveUp()
++if (curremt == down1) (if player1y + 4 < height) player1->moveDown()
+Copy for player2y
+
++Check ifcall->getDirection() == STOP
+ball->randomDirection();
+
++if 
+(current = "q")
+quit = true;
+
+

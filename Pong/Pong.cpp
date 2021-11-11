@@ -124,7 +124,7 @@ private:
     cPaddle* player1;
     cPaddle* player2;
 public:
-    cGameManager(int w, int y)
+    cGameManager(int w, int h)
     {
         srand(time(NULL));
         quit = false;
@@ -140,11 +140,59 @@ public:
     {
         delete ball, player1, player2;
     }
+    void Draw()//Render objects
+    {
+        system("cls");
+
+        for (int i = 0; i < width + 2; i++)
+            cout << "\xB2";
+        cout << endl;
+
+        for (int i = 0; i < height; i++)
+        {
+            for (int j = 0; j < width; j++)
+            {
+                int ballx = ball->getX();
+                int bally = ball->getY();
+                int player1x = player1->getX();
+                int player2x = player2->getX();
+                int player1y = player1->getY();
+                int player2y = player2->getY();
+
+                if (j == 0)
+                    cout << "\xB2";
+                if (ballx == j && bally == i)
+                    cout << "0";//Draw Ball
+                else if (player1x == j && player1y == i)
+                    cout << "\xDB";//Draw Player1
+                else if (player2x == j && player2y == i)
+                    cout << "\xDB";//Draw Player2
+
+                else if (player1x == j && player1y + 1 == i)
+                    cout << "\xDB";//Draw Player1
+                else if (player1x == j && player1y + 2== i)
+                    cout << "\xDB";//Draw Player1
+                else if (player1x == j && player1y + 3 == i)
+                    cout << "\xDB";//Draw Player1
+                else
+                    cout << " ";
+
+                if (j == width - 1)
+                    cout << "\xB2";
+            }
+            cout << endl;
+        }
+
+        for (int i = 0; i < width + 2; i++)
+            cout << "\xB2";
+        cout << endl;
+    }
 };
 
 int main()
 {
-    
+    cGameManager c(40, 20);
+    c.Draw();
 }
 
 // Run program: Ctrl + F5 or Debug > Start Without Debugging menu
