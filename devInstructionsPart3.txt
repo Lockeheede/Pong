@@ -45,7 +45,38 @@ Copy for player2y
 ball->randomDirection();
 
 +if 
-(current = "q")
+(current == "q")
 quit = true;
+
+-Add Logic() function
+Copy those coordinates again
+- Use for loop with i < 4; if ballx == player1x + 1 if bally == player1y + i ball->changeDirection((eDir)(rand()%3 +4));
++Copy this for player 2; except player2x - 1; rand()%3+1
+-Check if ball has hit the bottom wall
++ if bally == height - 1 ball->changeDirection(ball->getDirection() == DOWNRIGHT ? UPRIGHT : UPLEFT)
++ Copy this for top wall 
+if bally == 0; UPRIGHT ? DOWNRIGHT : DOWNLEFT
++ For scoring
+if ballx == width - 1 ScoreUp(player1)
+if ballx == 0 ScoreUp(player2)
+
+- Run() function
++ While !quit
++ Draw();
++ Input();
++ Logic();
+
+- In main()
+cGameManager c(40, 20);
+c.Run();
+
+- In Draw Function
+cout << "Score1: " << score1 << "Score 2: " << score2 <<  endl;
+
+-In Game Manager after destructor
++Make a ScoreUp function with cPaddle pointer player parameters
++if(player == player1) scoreP1++ else if scoreP2++
++ball->Reset()
+player1 and 2 Reset
 
 

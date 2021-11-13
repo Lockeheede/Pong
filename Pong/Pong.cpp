@@ -60,16 +60,16 @@ void Move()
         x++;
         break;
     case DLEFT:
-        x--; y--;
-        break;
-    case ULEFT:
         x--; y++;
         break;
+    case ULEFT:
+        x--; y--;
+        break;
     case DRIGHT:
-        x++; y--;
+        x++; y++;
         break;
     case URIGHT:
-        x++; y++;
+        x++; y--;
         break;
     default:
         break;
@@ -104,8 +104,8 @@ public:
 inline void Reset() { x = originalX; y = originalY; }
 inline int getX() { return x; }
 inline int getY() { return y; }
-inline void moveUp() { y++; }
-inline void moveDown() { y--; }
+inline void moveUp() { y--; }
+inline void moveDown() { y++; }
 
 friend ostream& operator<<(ostream& o, cPaddle c) {
     o << "Paddle [" << c.x << "," << c.y << "]";
@@ -139,6 +139,12 @@ public:
     ~cGameManager() 
     {
         delete ball, player1, player2;
+    }
+    void ScoreUp(cPaddle * player)
+    {
+        if (player == player1) scoreP1++;
+        else if (player == player2) scoreP2++;
+        ball->Reset();
     }
     void Draw()//Render objects
     {
@@ -174,6 +180,13 @@ public:
                     cout << "\xDB";//Draw Player1
                 else if (player1x == j && player1y + 3 == i)
                     cout << "\xDB";//Draw Player1
+
+                else if (player2x == j && player2y + 1 == i)
+                    cout << "\xDB";//Draw Player1
+                else if (player2x == j && player2y + 2 == i)
+                    cout << "\xDB";//Draw Player1
+                else if (player2x == j && player2y + 3 == i)
+                    cout << "\xDB";//Draw Player1
                 else
                     cout << " ";
 
@@ -186,13 +199,93 @@ public:
         for (int i = 0; i < width + 2; i++)
             cout << "\xB2";
         cout << endl;
+
+        cout << "Player 1: " << scoreP1 << endl << "Player 2: " << scoreP2;
+    }
+
+    void Input()
+    {
+        int ballx = ball->getX();
+        int bally = ball->getY();
+        int player1x = player1->getX();
+        int player2x = player2->getX();
+        int player1y = player1->getY();
+        int player2y = player2->getY();
+        ball->Move();
+        if (_kbhit())
+        {
+            char current = _getch();
+            if (current == upP1)
+                if (player1y > 0)
+                    player1->moveUp();
+            if (current == upP2)
+                if (player2y > 0)
+                    player2->moveUp();
+
+            if (current == downP1)
+                if (player1y + 4 < height)
+                    player1->moveDown();
+            if (current == downP2)
+                if (player2y + 4 < height)
+                    player2->moveDown();
+
+            if (ball->getDirection() == STOP)
+                ball->RandomDirection();
+
+            if (current == 'q')
+                quit = true;
+        }
+    }
+
+    void Logic()
+    {
+        int ballx = ball->getX();
+        int bally = ball->getY();
+        int player1x = player1->getX();
+        int player2x = player2->getX();
+        int player1y = player1->getY();
+        int player2y = player2->getY();
+
+        //Ball to the Paddles
+        for (int i = 0; i < 4; i++)
+            if (ballx == player1x + 1)
+                if (bally == player1y + i)
+                    ball->ChangeDirection((eDir)(rand() % 3 + 4));
+
+        for (int i = 0; i < 4; i++)
+            if (ballx == player2x - 1)
+                if (bally == player2y + i)
+                    ball->ChangeDirection((eDir)(rand() % 3 + 1));
+
+        //Ball to the Walls
+        if (bally == height - 1)
+            ball->ChangeDirection(ball->getDirection() == DRIGHT ? URIGHT : ULEFT);
+
+        if (bally == 0)
+            ball->ChangeDirection(ball->getDirection() == URIGHT ? DRIGHT : DLEFT);
+
+        //Ball to The End (Scoring)
+        if (ballx == width - 1) 
+            ScoreUp(player1);
+        if (ballx == 0)
+            ScoreUp(player2);
+    }
+
+    void Run()
+    {
+        while (!quit)
+        {
+            Draw();
+            Input();
+            Logic();
+        }
     }
 };
 
 int main()
 {
     cGameManager c(40, 20);
-    c.Draw();
+    c.Run();
 }
 
 // Run program: Ctrl + F5 or Debug > Start Without Debugging menu
